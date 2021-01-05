@@ -1,0 +1,9 @@
+name: MAST1Dpy27
+channels:
+  - defaults
+dependencies:
+  - python=2.7
+  - matplotlib
+  - numpy
+  - pandas
+  - xlrd
