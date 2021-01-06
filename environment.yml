@@ -1,8 +1,8 @@
-name: MAST1Dpy27
+name: MAST1Dpy36
 channels:
   - defaults
 dependencies:
-  - python=2.7
+  - python=3.6
   - matplotlib
   - numpy
   - pandas
