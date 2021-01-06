@@ -7,9 +7,9 @@ Created on Mon May 08 15:45:43 2017
 import os
 import numpy as np
 import pandas
-from clsOutputdata import clsOutputdata
+from Animator.clsOutputdata import clsOutputdata
 import matplotlib.pyplot as plt
-import Tkinter as T
+import tkinter as T
 
 class clsAnimation():
     

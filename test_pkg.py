@@ -3,11 +3,11 @@ Testing all packages are installed as required by the
 MAST-1D Quick-Start document by using conda and the partial package list in the
 environment.yml file copied here for convenience:
 ----------------
-name: MAST1Dpy27
+name: MAST1Dpy36
 channels:
   - defaults
 dependencies:
-  - python=2.7
+  - python=3.6
   - matplotlib
   - numpy
   - pandas
@@ -32,6 +32,7 @@ import os
 import pandas
 import pickle
 import sys
-import tkFileDialog
-import Tkinter
+#import tkfiledialog
+import tkinter #this includes filedialog
+from tkinter import filedialog
 import xlrd
