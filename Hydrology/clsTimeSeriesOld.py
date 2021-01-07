@@ -59,12 +59,12 @@ class clsTimeSeries(object):
         sheet = book.sheet_by_name('Q')
         
         #  Converts string date to matplotlib-compatable date
-        rawDates = map(lambda x: x.value,sheet.col_slice(colx=0,start_rowx = 1,end_rowx = None))
-        tupleDates = map(lambda x: x.split('-'),rawDates)
-        self.Dates = map(lambda x: datetime.datetime(int(x[0]),int(x[1]),int(x[2])), tupleDates)
+        rawDates = [x.value for x in sheet.col_slice(colx=0,start_rowx = 1,end_rowx = None)]
+        tupleDates = [x.split('-') for x in rawDates]
+        self.Dates = [datetime.datetime(int(x[0]),int(x[1]),int(x[2])) for x in tupleDates]
                     
         #  Loads Q data and calculates averages for specified timechunks
-        self.Values = map(lambda x: x.value, sheet.col_slice(colx=1,start_rowx=1,end_rowx = None))
+        self.Values = [x.value for x in sheet.col_slice(colx=1,start_rowx=1,end_rowx = None)]
         if len(self.timechunks) > 0:
             self.Calculate_time_averages()
             
@@ -85,8 +85,8 @@ class clsTimeSeries(object):
         book = xlrd.open_workbook(Pkpath)
         sheet = book.sheet_by_name('ForAnalysis')
         
-        self.Dates = map(lambda x: int(x.value), sheet.col_slice(colx=1,start_rowx = 1,end_rowx = None))
-        self.Values = map(lambda x: x.value, sheet.col_slice(colx=3,start_rowx = 1,end_rowx = None))
+        self.Dates = [int(x.value) for x in sheet.col_slice(colx=1,start_rowx = 1,end_rowx = None)]
+        self.Values = [x.value for x in sheet.col_slice(colx=3,start_rowx = 1,end_rowx = None)]
 
     def Load_P_data(self,Ppath,label,text):
         
@@ -105,11 +105,11 @@ class clsTimeSeries(object):
         sheet = book.sheet_by_name('646810')
         
         #  Converts string date to matplotlib-compatable date
-        rawDates = map(lambda x: str(x.value),sheet.col_slice(colx=2,start_rowx = 2,end_rowx = None))
-        self.Dates = map(lambda x: datetime.datetime(int(x[0:4]),int(x[4:6]),int(x[6:8])), rawDates)
+        rawDates = [str(x.value) for x in sheet.col_slice(colx=2,start_rowx = 2,end_rowx = None)]
+        self.Dates = [datetime.datetime(int(x[0:4]),int(x[4:6]),int(x[6:8])) for x in rawDates]
         
         #  Loads values--deletes values of '-9999' (i.e. no data) and removes the date from the Dates list
-        rawValues = map(lambda x: x.value/10., sheet.col_slice(colx=7,start_rowx=2,end_rowx = None)) # Division by 10 to conver to mm
+        rawValues = [x.value/10. for x in sheet.col_slice(colx=7,start_rowx=2,end_rowx = None)] # Division by 10 to conver to mm
         i = 0
         for val in rawValues:
             if val != -999.9:
@@ -117,7 +117,7 @@ class clsTimeSeries(object):
             else:
                 self.Dates[i] = 'nan'
             i = i + 1
-        self.Dates = filter(lambda x: x != 'nan', self.Dates)
+        self.Dates = [x for x in self.Dates if x != 'nan']
         
         if len(self.timechunks) > 0:
             self.Calculate_time_averages()
@@ -188,19 +188,19 @@ class clsTimeSeries(object):
         
         #  Extract discharge values for each year and sum them.
 
-        meanflow = sum(map(lambda x: x*86400*1,self.Values))/len(self.Dates) # Equation 1 in Kresch:  ((m^3/s)*(s/day)*(day)/((day)*(yr/d)) = m^3
+        meanflow = sum([x*86400*1 for x in self.Values])/len(self.Dates) # Equation 1 in Kresch:  ((m^3/s)*(s/day)*(day)/((day)*(yr/d)) = m^3
         i = startyear
         Dxt_old = 0.
         
         while i <= endyear:
             year = i+1
             yearsum = 0.
-            index1 = self.Dates.index(datetime.datetime(i,10,01)) # Water new-years
+            index1 = self.Dates.index(datetime.datetime(i,10,0o1)) # Water new-years
             if i == endyear:
-                yearsum = sum(map(lambda x: x*86400*1,self.Values[index1:]))/len(self.Dates[index1:])
+                yearsum = sum([x*86400*1 for x in self.Values[index1:]])/len(self.Dates[index1:])
             else:
-                index2 = self.Dates.index(datetime.datetime(i+1,10,01)) # One past Water new-years eve
-                yearsum = sum(map(lambda x: x*86400*1,self.Values[index1:index2]))/len(self.Dates[index1:index2])
+                index2 = self.Dates.index(datetime.datetime(i+1,10,0o1)) # One past Water new-years eve
+                yearsum = sum([x*86400*1 for x in self.Values[index1:index2]])/len(self.Dates[index1:index2])
                         
             Dx = (yearsum-meanflow) # Equation 2 in Kresch (m^3)
             Dxt_new = Dxt_old + (365.25*Dx) #  Kresch Equation 3 (converting from m^3/day to m^3/yr)

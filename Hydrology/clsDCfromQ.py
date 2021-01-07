@@ -4,8 +4,8 @@ Created on Wed Feb 10 17:38:44 2016
 
 @author: geography
 """
-from clsQrecord import clsQrecord
-from clsTimeSeries import clsTimeSeries
+from .clsQrecord import clsQrecord
+from .clsTimeSeries import clsTimeSeries
 
 class clsDCfromQ(object):
     

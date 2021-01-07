@@ -4,7 +4,7 @@ Created on Thu Feb 11 13:54:29 2016
 
 @author: geography
 """
-from clsTimeSeries import clsTimeSeries
+from .clsTimeSeries import clsTimeSeries
 import xlrd
 import datetime
 import matplotlib.pyplot as plt
@@ -64,12 +64,12 @@ class clsQrecord(object):
         sheet = book.sheet_by_name(Worksheet)
         
         #  Converts string date to matplotlib-compatable date
-        rawDates = map(lambda x: x.value,sheet.col_slice(colx=0,start_rowx = 1,end_rowx = None))
-        tupleDates = map(lambda x: x.split('-'),rawDates)
-        self.Dates = map(lambda x: datetime.datetime(int(x[0]),int(x[1]),int(x[2])), tupleDates)
+        rawDates = [x.value for x in sheet.col_slice(colx=0,start_rowx = 1,end_rowx = None)]
+        tupleDates = [x.split('-') for x in rawDates]
+        self.Dates = [datetime.datetime(int(x[0]),int(x[1]),int(x[2])) for x in tupleDates]
                     
         #  Loads Q data and calculates averages for specified timechunks
-        self.Values = map(lambda x: x.value, sheet.col_slice(colx=1,start_rowx=1,end_rowx = None))
+        self.Values = [x.value for x in sheet.col_slice(colx=1,start_rowx=1,end_rowx = None)]
 
             
     def Load_Pk_data(self,Worksheet='ForAnalysis',label="",text=""):
@@ -89,8 +89,8 @@ class clsQrecord(object):
         book = xlrd.open_workbook(self.Path)
         sheet = book.sheet_by_name(Worksheet)
         
-        self.Dates = map(lambda x: int(x.value), sheet.col_slice(colx=1,start_rowx = 1,end_rowx = None))
-        self.Values = map(lambda x: x.value, sheet.col_slice(colx=3,start_rowx = 1,end_rowx = None))
+        self.Dates = [int(x.value) for x in sheet.col_slice(colx=1,start_rowx = 1,end_rowx = None)]
+        self.Values = [x.value for x in sheet.col_slice(colx=3,start_rowx = 1,end_rowx = None)]
 
     def Load_SD_data(self,Worksheet='Elwha_monthly_climate_data',label="",text=""):
         
@@ -110,8 +110,8 @@ class clsQrecord(object):
         book = xlrd.open_workbook(self.Path)
         sheet = book.sheet_by_name(Worksheet)
         
-        self.Dates = map(lambda x: int(x.value), sheet.col_slice(colx=40,start_rowx = 2,end_rowx = 75))       
-        self.Values = map(lambda x: x.value, sheet.col_slice(colx=41,start_rowx = 2,end_rowx = 75))
+        self.Dates = [int(x.value) for x in sheet.col_slice(colx=40,start_rowx = 2,end_rowx = 75)]       
+        self.Values = [x.value for x in sheet.col_slice(colx=41,start_rowx = 2,end_rowx = 75)]
 
     def Load_P_data(self,Worksheet='646810',label="",text=""):
         
@@ -131,11 +131,11 @@ class clsQrecord(object):
         sheet = book.sheet_by_name(Worksheet)
         
         #  Converts string date to matplotlib-compatable date
-        rawDates = map(lambda x: str(x.value),sheet.col_slice(colx=2,start_rowx = 2,end_rowx = None))
-        self.Dates = map(lambda x: datetime.datetime(int(x[0:4]),int(x[4:6]),int(x[6:8])), rawDates)
+        rawDates = [str(x.value) for x in sheet.col_slice(colx=2,start_rowx = 2,end_rowx = None)]
+        self.Dates = [datetime.datetime(int(x[0:4]),int(x[4:6]),int(x[6:8])) for x in rawDates]
         
         #  Loads values--deletes values of '-9999' (i.e. no data) and removes the date from the Dates list
-        rawValues = map(lambda x: x.value/10., sheet.col_slice(colx=7,start_rowx=2,end_rowx = None)) # Division by 10 to conver to mm
+        rawValues = [x.value/10. for x in sheet.col_slice(colx=7,start_rowx=2,end_rowx = None)] # Division by 10 to conver to mm
         i = 0
         for val in rawValues:
             if val != -999.9:
@@ -143,7 +143,7 @@ class clsQrecord(object):
             else:
                 self.Dates[i] = 'nan'
             i = i + 1
-        self.Dates = filter(lambda x: x != 'nan', self.Dates)
+        self.Dates = [x for x in self.Dates if x != 'nan']
             
     def Extract_timechunks(self): 
         
@@ -214,9 +214,9 @@ class clsQrecord(object):
         datelist = []
         
         #  Extract discharge values for each year and sum them.
-        index1 = self.Dates.index(datetime.date(startyear,10,01))
-        index2 = self.Dates.index(datetime.date(endyear,10,01))
-        meanflow = sum(map(lambda x: x*86400*1,self.Values[index1:index2+1]))/len(self.Dates[index1:index2+1]) # Equation 1 in Kresch:  ((m^3/s)*(s/day)*(day)/((day)*(yr/d)) = m^3
+        index1 = self.Dates.index(datetime.date(startyear,10,0o1))
+        index2 = self.Dates.index(datetime.date(endyear,10,0o1))
+        meanflow = sum([x*86400*1 for x in self.Values[index1:index2+1]])/len(self.Dates[index1:index2+1]) # Equation 1 in Kresch:  ((m^3/s)*(s/day)*(day)/((day)*(yr/d)) = m^3
         i = startyear
         Dxt_old = 0.
         
@@ -227,16 +227,16 @@ class clsQrecord(object):
             if type(self.Dates[0])==int:
                 index1 = self.Dates.index(i)
             else:
-                index1 = self.Dates.index(datetime.date(i,10,01)) # Water new-years
+                index1 = self.Dates.index(datetime.date(i,10,0o1)) # Water new-years
             
             if i == endyear:
-                yearsum = sum(map(lambda x: x*86400*1,self.Values[index1:]))/len(self.Dates[index1:])
+                yearsum = sum([x*86400*1 for x in self.Values[index1:]])/len(self.Dates[index1:])
             else:
                 if type(self.Dates[0])==int:
                     index2 = self.Dates.index(i+1)
                 else:
-                    index2 = self.Dates.index(datetime.date(i+1,10,01)) # One past Water new-years eve
-                yearsum = sum(map(lambda x: x*86400*1,self.Values[index1:index2]))/len(self.Dates[index1:index2])
+                    index2 = self.Dates.index(datetime.date(i+1,10,0o1)) # One past Water new-years eve
+                yearsum = sum([x*86400*1 for x in self.Values[index1:index2]])/len(self.Dates[index1:index2])
                         
             Dx = (yearsum-meanflow) # Equation 2 in Kresch (m^3)
             Dxt_new = Dxt_old + (365.25*Dx) #  Kresch Equation 3 (converting from m^3/day to m^3/yr)
@@ -321,11 +321,11 @@ class clsQrecord(object):
         
         Dtickvals = np.array([2, 16, 64, 128, 256, 512])
         Dticklocs = tick_function(Dtickvals)
-        Dticklocs = map(lambda x: math.log(x,10), Dticklocs.tolist())
+        Dticklocs = [math.log(x,10) for x in Dticklocs.tolist()]
 
         ax2.set_ylim(0,3)
         ax2.set_yticks(Dticklocs)
-        ax2.set_yticklabels(map(lambda x: str(x),Dtickvals))
+        ax2.set_yticklabels([str(x) for x in Dtickvals])
         #ax2.set_yscale('log')
 
         ax2.set_ylabel('Maximum particle size entrained (mm)')        

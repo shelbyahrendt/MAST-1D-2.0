@@ -19,7 +19,7 @@ import datetime
 import matplotlib.pyplot as plt
 import numpy as np
 from copy import deepcopy
-from clsTimeSeries import clsTimeSeries
+from .clsTimeSeries import clsTimeSeries
 
 class clsTSPlot(object):
     
@@ -73,7 +73,7 @@ class clsTSPlot(object):
             self.Series.append(series)
             
         else:
-            print 'Improper spreadsheet format'
+            print('Improper spreadsheet format')
             
             
     def Plot_series(self,shading=[],smoothed=0):

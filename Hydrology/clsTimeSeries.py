@@ -92,7 +92,7 @@ class clsTimeSeries(object):
         
         #  Convert from histogram to frequency plot
         total = float(sum(DCraw))
-        DC = list(map(lambda x: x/total, DCraw))
+        DC = list([x/total for x in DCraw])
 
         #  Find average value of each bin
         i = 0
@@ -125,7 +125,7 @@ class clsTimeSeries(object):
         
         #  If discharge is in ft^3/s, convert to m^3/s
         if feet == True:
-            newbinQ = map(lambda x: x*.3048**3, newbinQ)            
+            newbinQ = [x*.3048**3 for x in newbinQ]            
             
         return newbinQ, newDC
         

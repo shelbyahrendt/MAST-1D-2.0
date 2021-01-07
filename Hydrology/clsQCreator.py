@@ -19,8 +19,8 @@ class clsQCreator(object):
         -numH2OYears--int (Number of complete water years in record)
         """
 
-        self.Dates = map(lambda x: datetime.datetime.strptime(x, '%Y,%m,%d').date(), DateList)
-        self.QList = map(lambda x: float(x), QList)
+        self.Dates = [datetime.datetime.strptime(x, '%Y,%m,%d').date() for x in DateList]
+        self.QList = [float(x) for x in QList]
         self.StartH2OYear = ""
         self.numH2Oyears = ""
         self.FindNumH2OYears()
@@ -66,7 +66,7 @@ class clsQCreator(object):
         numyears = EndH2OYear - self.StartH2OYear
 
         # Create all the permutations of years and create Q records from them 
-        permutations = list(itertools.permutations(range(numyears)))
+        permutations = list(itertools.permutations(list(range(numyears))))
 
         return permutations
 
