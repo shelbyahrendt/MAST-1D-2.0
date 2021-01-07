@@ -62,7 +62,7 @@ def load_hydrograph(inputs):
     # conditions and feed.  Other parameters can be customized (see ExtractDC function).
     #wholeQ = open(os.path.join(os.pardir, 'Discharge_Files', inputs.DischargeFile)).readlines()
     wholeQ = open(os.path.join(os.pardir, 'Discharge_Files', inputs.DischargeFile)).readlines()
-    wholeQ = map(lambda x: float(x), wholeQ)
+    wholeQ = [float(x) for x in wholeQ]
     Q = clsTimeSeries([],wholeQ) 
     inputs.Qw, inputs.p = Q.CreateDurationCurve(inputs.HydroBins)
     return inputs

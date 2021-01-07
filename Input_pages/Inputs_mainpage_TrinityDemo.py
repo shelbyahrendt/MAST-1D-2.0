@@ -46,7 +46,7 @@ def load_hydrograph(inputs):
     # Load in discharge file as a list
     DischargeFile = os.path.join(os.pardir,"Discharge_Files", inputs.DischargeFile)
     Qlist = open(DischargeFile).readlines()
-    inputs.Qlist = map(lambda x: float(x), Qlist)
+    inputs.Qlist = [float(x) for x in Qlist]
     
     # Create a duration curve from the list for setting up equilibrium floodplain
     # conditions and feed.  Other parameters can be customized (see ExtractDC function).
@@ -341,8 +341,8 @@ inputs.Outputvars = ['Slope','Bf','Bc',\
 # B. Output on specific dates (for hydrograph runs)
 
 # Dates (yyyy, m, dd) in which to output variables for model validation 
-inputs.ValidateDates = [(1939, 1, 01),(1968, 1, 01),(1976, 1, 01),(1981, 1, 01),\
-    (1990, 1, 01),(2000, 1, 01),(2006, 1, 01),(2009, 1, 01),(2014, 12, 30),(2016, 8, 11)]     
+inputs.ValidateDates = [(1939, 1, 0o1),(1968, 1, 0o1),(1976, 1, 0o1),(1981, 1, 0o1),\
+    (1990, 1, 0o1),(2000, 1, 0o1),(2006, 1, 0o1),(2009, 1, 0o1),(2014, 12, 30),(2016, 8, 11)]     
 # Variables (attributes of clsNode) in which to output on specific dates for model validation
 inputs.Validatevars = ['Bc','CumulativeNarrowing','CumulativeWidening'] 
 
