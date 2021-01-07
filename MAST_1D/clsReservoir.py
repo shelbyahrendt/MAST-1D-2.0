@@ -1,6 +1,6 @@
 
-from clsExchangeTypes import clsExchangeTypes
-from clsGSD import clsGSD 
+from .clsExchangeTypes import clsExchangeTypes
+from .clsGSD import clsGSD 
 import numpy as np
 from copy import deepcopy
 

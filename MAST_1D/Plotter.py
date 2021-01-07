@@ -163,9 +163,9 @@ df1 = df.loc[locid,variable1,:]
 
 #  The plot
 
-print ggplot(aes(x=xaxis, y='Value'), data=df1) +\
+print(ggplot(aes(x=xaxis, y='Value'), data=df1) +\
     geom_line(color = 'blue') + xlab(slabel) + ylab(variable1) \
-    + ggtitle(stitle + locid)
+    + ggtitle(stitle + locid))
 
 """
 For field data

@@ -8,7 +8,7 @@ Stores daily data for output.  For use with hydrographs.
 """
 
 import datetime
-from clsNode import clsNode
+from .clsNode import clsNode
 import os
 
 

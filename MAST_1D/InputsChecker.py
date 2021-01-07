@@ -12,7 +12,7 @@ import sys
 import pickle
 sys.path.append("..")
 
-from clsInputs import clsInputs
+from .clsInputs import clsInputs
 
-inputs = pickle.load( open(os.path.join('C:\Users\Katie\Dropbox\MAST-1D_version_K15\Output\PreRemoval\EDamIndex3Mob05AlphaN07AlphaG055NewAvulsion_test', 'inputparams.inputs'), "rb" ) )
-print inputs.ErodeT
+inputs = pickle.load( open(os.path.join('C:\\Users\Katie\Dropbox\MAST-1D_version_K15\Output\PreRemoval\EDamIndex3Mob05AlphaN07AlphaG055NewAvulsion_test', 'inputparams.inputs'), "rb" ) )
+print(inputs.ErodeT)

@@ -1,8 +1,8 @@
 
-from clsSubstratePairClass import clsSubstratePairClass
-from clsReservoir import clsReservoir
-from clsDurationCurve import clsDurationCurve
-from clsLoad import clsLoad
+from .clsSubstratePairClass import clsSubstratePairClass
+from .clsReservoir import clsReservoir
+from .clsDurationCurve import clsDurationCurve
+from .clsLoad import clsLoad
 from copy import deepcopy
 import pdb
 import numpy as np
@@ -135,8 +135,8 @@ class clsNode(object):
                     self.Load.QsAvkFeed[0] / self.Load.QsavBedTot))
             else:
                 FWashloadInPointBar = 1.
-                print('Bed material load is zero.  Washload fraction in ' + \
-                    'point bar set equal to 1.')
+                print(('Bed material load is zero.  Washload fraction in ' + \
+                    'point bar set equal to 1.'))
             
             Fkpointbar = [0.] * (self.NSizes + 1)
             Fkpointbar[0] = FWashloadInPointBar
@@ -210,8 +210,8 @@ class clsNode(object):
             #self.Substrate[-1] = deepcopy(self.Substrate[-2])
             # Katie change--deepcopy keeps references for nested objects--need to define new object
             # and set it manually.
-            self.Substrate[-1].C = clsReservoir(range(self.Substrate[-2].C.NSizes + 2), self.NTracers)
-            self.Substrate[-1].F = clsReservoir(range(self.Substrate[-2].F.NSizes + 2), self.NTracers)
+            self.Substrate[-1].C = clsReservoir(list(range(self.Substrate[-2].C.NSizes + 2)), self.NTracers)
+            self.Substrate[-1].F = clsReservoir(list(range(self.Substrate[-2].F.NSizes + 2)), self.NTracers)
             self.Substrate[-1].C.GSD = deepcopy(self.Substrate[-2].C.GSD)
             self.Substrate[-1].F.GSD = deepcopy(self.Substrate[-2].F.GSD)
             self.Substrate[-2].C.L = Spacing
@@ -1429,7 +1429,7 @@ class clsNode(object):
         
         if self.Floodplain.L-self.ActiveLayer.L < threshold:
             print('Avulsion!')
-            print(self.Floodplain.L)
+            print((self.Floodplain.L))
             # This part of the code extracts a slice of substrate that is the 
             # thickness of the user-specified original substrate spacing.  This
             # is so that the depth of the new channel is consistent and does not

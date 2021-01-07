@@ -1,11 +1,11 @@
 
 from copy import deepcopy
 import os
-from clsReach import clsReach
-from clsTracerProperties import clsTracerProperties
-from clsOutputWriter import clsOutputWriter
-from clsReservoir import clsReservoir
-from clsSubstratePairClass import clsSubstratePairClass
+from .clsReach import clsReach
+from .clsTracerProperties import clsTracerProperties
+from .clsOutputWriter import clsOutputWriter
+from .clsReservoir import clsReservoir
+from .clsSubstratePairClass import clsSubstratePairClass
 import datetime
 import pickle as pickle
 import numpy as np
@@ -235,8 +235,7 @@ class clsModel(object):
             LoadFactorCount = self.inputs.LoadFactorCount
             LoadType = 'counter'
         if type(self.inputs.LoadFactorCount[0]) == tuple:
-            LoadFactorCount = map(lambda x: datetime.date(*x[:6]),\
-                self.inputs.LoadFactorCount)
+            LoadFactorCount = [datetime.date(*x[:6]) for x in self.inputs.LoadFactorCount]
             LoadType = 'date'
         n = 0 # Keeps track of which item in LoadFactorCount is the current trigger
         NewAvkFeed = Reach.Node[0].Load.QsAvkFeed #Katie add: Updated feed goes here, and feed in Node objects are filled after results are written to file
@@ -250,8 +249,7 @@ class clsModel(object):
         if self.inputs.Hydrograph == False:
             BoundaryType = 'counter'
         else:
-            BoundaryFactorCount = list(map(lambda x: datetime.date(*x[:6]),\
-                self.inputs.BoundaryFactorCount))
+            BoundaryFactorCount = list([datetime.date(*x[:6]) for x in self.inputs.BoundaryFactorCount])
             BoundaryType = 'date'
         NextBoundary = 0 #  Keeps track of which item in BoundaryChangeCount is the current trigger      
         
@@ -312,7 +310,7 @@ class clsModel(object):
         NextCount = 0 # Keeps track of what value of counter will trigger the next standard print interval
         
         #  Output files that are written at user-defined dates for model performance testing      
-        ValidateDates = list(map(lambda x: datetime.date(*x[:6]), self.inputs.ValidateDates)) # List of dates to output data
+        ValidateDates = list([datetime.date(*x[:6]) for x in self.inputs.ValidateDates]) # List of dates to output data
         VarPrintstep = 0 # Locator for performance-testing output files  
 
         """
@@ -344,7 +342,7 @@ class clsModel(object):
                 else:
                     year = Tyear-(dt/60./60./24./365.25)
                 
-                print('Saving regular output at count = %s' % counter) 
+                print(('Saving regular output at count = %s' % counter)) 
                 for out in self.inputs.Outputvars:
                     OutputObj.Output('Out_'+ out, Reach, out, \
                         Printstep, year)
@@ -363,7 +361,7 @@ class clsModel(object):
                 
             #  If date is one specified for performance testing, write output.
             if date in ValidateDates and subdaycount == 1:
-                print('Saving validation output at specified date of: %s ' % date)
+                print(('Saving validation output at specified date of: %s ' % date))
                 for out in self.inputs.Validatevars:
                     OutputObj.Output('OutValidate_'+ out, Reach, out, \
                         VarPrintstep, float(date.year))
@@ -798,7 +796,7 @@ class clsModel(object):
             #  Print record of time--every 10 timesteps for duration curve and 
             #  every month for hydrographs
             if date.day == 1 and subdaycount == 0 and self.inputs.Hydrograph == True and self.inputs.CyclingHydrograph == False:
-                print(str(date))
+                print((str(date)))
             if self.inputs.Hydrograph == False and counter % 10 == 0:
                 print(counter)
             

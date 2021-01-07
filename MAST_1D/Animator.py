@@ -152,24 +152,24 @@ def updateplot(var):
 def pauseorplay():
     global pause
     if pause == False:
-        pausebutton.configure(text = u"\u25B6", bg='GREEN')
+        pausebutton.configure(text = "\u25B6", bg='GREEN')
         pause = True
     else:
-        pausebutton.configure(text = u"\u2016", font = ('bold'), bg = 'RED')
+        pausebutton.configure(text = "\u2016", font = ('bold'), bg = 'RED')
         pause = False
         
 def rewind():
     global pause
     global j
     pause = True
-    pausebutton.configure(text = u"\u25B6", bg='GREEN')
+    pausebutton.configure(text = "\u25B6", bg='GREEN')
     j = j - 1
     
 def fforward():
     global pause
     global j
     pause = True
-    pausebutton.configure(text = u"\u25B6", bg='GREEN')
+    pausebutton.configure(text = "\u25B6", bg='GREEN')
     j = j + 1    
         
 # Data extraction
@@ -213,15 +213,15 @@ aniplot = FigureCanvasTkAgg(figure, master=f)
 aniplot.get_tk_widget().grid(column=0, row=1, padx=10, columnspan=3)
 
 pause = False
-pausebutton = tk.Button(f, text = u"\u2016", font=('bold'), bg='RED', command = pauseorplay)
+pausebutton = tk.Button(f, text = "\u2016", font=('bold'), bg='RED', command = pauseorplay)
 pausebutton.config(height=2, width=5)
 pausebutton.grid(column=1, row=3, pady=10)
 
-rewindbutton = tk.Button(f, text = u"\u23EA", font=('bold'), command = rewind)
+rewindbutton = tk.Button(f, text = "\u23EA", font=('bold'), command = rewind)
 rewindbutton.config(height=1, width = 3)
 rewindbutton.grid(column=0, row=3)
 
-ffbutton = rewindbutton = tk.Button(f, text = u"\u23E9", font=('bold'), command = fforward)
+ffbutton = rewindbutton = tk.Button(f, text = "\u23E9", font=('bold'), command = fforward)
 ffbutton.config(height=1, width = 3)
 ffbutton.grid(column=2, row=3)
 

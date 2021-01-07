@@ -1,8 +1,8 @@
 
-from clsSubstratePairClass import clsSubstratePairClass
-from clsReservoir import clsReservoir
-from clsDurationCurve import clsDurationCurve
-from clsLoad import clsLoad
+from .clsSubstratePairClass import clsSubstratePairClass
+from .clsReservoir import clsReservoir
+from .clsDurationCurve import clsDurationCurve
+from .clsLoad import clsLoad
 from copy import deepcopy
 import pdb
 import numpy as np
@@ -135,8 +135,8 @@ class clsNode(object):
                     self.Load.QsAvkFeed[0] / self.Load.QsavBedTot))
             else:
                 FWashloadInPointBar = 1.
-                print('Bed material load is zero.  Washload fraction in ' + \
-                    'point bar set equal to 1.')
+                print(('Bed material load is zero.  Washload fraction in ' + \
+                    'point bar set equal to 1.'))
             
             Fkpointbar = [0.] * (self.NSizes + 1)
             Fkpointbar[0] = FWashloadInPointBar
@@ -1241,8 +1241,8 @@ class clsNode(object):
         """
         
         if self.Floodplain.L-self.ActiveLayer.L < threshold:
-            print 'Avulsion!'
-            print self.Floodplain.L
+            print('Avulsion!')
+            print(self.Floodplain.L)
             # This part of the code extracts a slice of substrate that is the 
             # thickness of the user-specified original substrate spacing.  This
             # is so that the depth of the new channel is consistent and does not

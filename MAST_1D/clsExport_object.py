@@ -6,7 +6,7 @@ Created on Fri May 13 11:18:12 2016
 """
 import os
 import pickle
-from clsOutputSpecs import clsOutputSpecs
+from .clsOutputSpecs import clsOutputSpecs
             
 class clsExport_object(object):
     

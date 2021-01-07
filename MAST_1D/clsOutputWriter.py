@@ -8,9 +8,9 @@ Stores functions for writing output to files.
 """
 
 import datetime
-from clsNode import clsNode
+from .clsNode import clsNode
 import os
-from clsOutputSpecs import clsOutputSpecs
+from .clsOutputSpecs import clsOutputSpecs
 import json
 
 
@@ -139,7 +139,7 @@ class clsOutputWriter(object):
         -Reach--clsReach (Reach with data to output)
         """
         
-        for DailyNode in self.DailyNodes.keys():
+        for DailyNode in list(self.DailyNodes.keys()):
             self.DailyNodes[DailyNode].PopulateLists(Reach.Node[DailyNode])
             
     def WriteDailyFiles(self):
@@ -150,8 +150,8 @@ class clsOutputWriter(object):
         
         outputpath = os.path.join(os.pardir, self.Outputfolder)
         datelist = []
-        for DailyNode in self.DailyNodes.keys():
-            datelist = list(map(lambda x: x.strftime('%Y,%m,%d'), self.DailyNodes[DailyNode].Date))
+        for DailyNode in list(self.DailyNodes.keys()):
+            datelist = list([x.strftime('%Y,%m,%d') for x in self.DailyNodes[DailyNode].Date])
             json.dump(self.DailyNodes[DailyNode].Q, open(os.path.join(outputpath, "save.DailyQ" + str(DailyNode)), "w", encoding="utf8" ))
             json.dump(self.DailyNodes[DailyNode].QsavBedTot, open(os.path.join(outputpath, "save.DailyQsavBedTot" + str(DailyNode)), "w", encoding="utf8" ))
             json.dump(self.DailyNodes[DailyNode].QsavTotAllFeed, open(os.path.join(outputpath, "save.DailyQsavTotAllFeed" + str(DailyNode)), "w" )) 

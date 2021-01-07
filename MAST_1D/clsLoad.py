@@ -1,6 +1,6 @@
 
-from clsExchangeTypes import clsExchangeTypes
-from clsGSD import clsGSD
+from .clsExchangeTypes import clsExchangeTypes
+from .clsGSD import clsGSD
 import numpy as np
 from math import exp
 #from decimal import* #Katie add
@@ -226,7 +226,7 @@ class clsLoad(object):
         TauRm = TauStarRm * (SG - 1.) * rho_w * g * GSD.Dg / 1000.
         self.TauRm = TauRm
         
-        DRange = range(1, GSD.NBedSizes + 1)
+        DRange = list(range(1, GSD.NBedSizes + 1))
         if IndD != 0:
             DRange =  DRange[IndD:]
             for i in DRange:
@@ -479,7 +479,7 @@ class clsLoad(object):
                 self.QsAvkLoad[k] = self.QsAvkLoad[k] + self.Qsjk[j, k] * \
                     DC.p[j]
                 if self.QsAvkLoad[k] < 0.:
-                    print('load < 0 for k = ' + str(k)) 
+                    print(('load < 0 for k = ' + str(k))) 
             self.QsAvkLoad[k] = float(self.QsAvkLoad[k])
 
         # This loop updates GSD for annual bed material load

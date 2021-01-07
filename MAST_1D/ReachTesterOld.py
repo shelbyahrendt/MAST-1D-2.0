@@ -3,10 +3,10 @@ from copy import deepcopy
 import os
 #from Tkinter import *
 
-from clsReach import clsReach
-from clsTracerProperties import clsTracerProperties
-from clsInputs import clsInputs
-from clsOutputSpecs import clsOutputSpecs
+from .clsReach import clsReach
+from .clsTracerProperties import clsTracerProperties
+from .clsInputs import clsInputs
+from .clsOutputSpecs import clsOutputSpecs
 import datetime
 import pickle as pickle
 import pdb
@@ -435,7 +435,7 @@ class clsModel(object):
         OutputSpecs4 = clsOutputSpecs(date)
         OutputSpecs5 = clsOutputSpecs(date)
         
-        ValidateDates = map(lambda x: datetime.date(*x[:6]), self.inputs.ValidateDates)
+        ValidateDates = [datetime.date(*x[:6]) for x in self.inputs.ValidateDates]
                     
         # *********SETUP INITIAL CONDITIONS FOR PLOTTING AND FOR LATER USE ********
         # Get initial load conditions
@@ -463,7 +463,7 @@ class clsModel(object):
             LoadFactorCount = self.inputs.LoadFactorCount
             LoadType = 'counter'
         if type(self.inputs.LoadFactorCount[0]) == tuple:
-            LoadFactorCount = map(lambda x: datetime.date(*x[:6]), self.inputs.LoadFactorCount)
+            LoadFactorCount = [datetime.date(*x[:6]) for x in self.inputs.LoadFactorCount]
             LoadType = 'date'
         
         #  Boundary change can be determined from either the counter or date, like
@@ -474,7 +474,7 @@ class clsModel(object):
         if type(self.inputs.BoundaryChangeCount[0]) == int:
             BoundaryType = 'counter'
         if type(self.inputs.BoundaryChangeCount[0]) == tuple:
-            BoundaryChangeCount = map(lambda x: datetime.date(*x[:6]), self.inputs.BoundaryChangeCount)
+            BoundaryChangeCount = [datetime.date(*x[:6]) for x in self.inputs.BoundaryChangeCount]
             BoundaryType = 'date'
         
         
@@ -520,7 +520,7 @@ class clsModel(object):
         else:
             Steps = MaxSteps
             
-        print 'Model setup complete!  Starting timesteps...'
+        print('Model setup complete!  Starting timesteps...')
         while counter < Steps:
             # ***************************OUTPUT RESULTS TO SPREADSHEET************* # Katie deleted a whole section here; see historic copies.
             if counter == NextCount: # Katie comment out
@@ -557,7 +557,7 @@ class clsModel(object):
                 VarPrintstep += 1
             
             if date.day == 1 and subdaycount == 1:
-                print str(date)
+                print(str(date))
 
             # **********************END OUTPUT*************************************
             
@@ -755,7 +755,7 @@ class clsModel(object):
         pickle.dump(Reach, open(os.path.join(os.pardir, self.inputs.Outputfolder, "save.Reach"), "wb" )) 
         pickle.dump(self.inputs, open(os.path.join(os.pardir, self.inputs.Outputfolder, "inputparams.inputs"), "wb")) 
         
-        datelist = map(lambda x: x.strftime('%Y,%m,%d'), OutputSpecs1.Date) 
+        datelist = [x.strftime('%Y,%m,%d') for x in OutputSpecs1.Date] 
         
         json.dump(datelist, open(os.path.join(os.pardir, self.inputs.Outputfolder, "save.DailyDate"), "wb" ))
 

@@ -10,7 +10,7 @@ Created on Fri Feb 13 12:21:25 2015
 import tkinter as tk
 #import os
 
-from clsInputs import clsInputs
+from .clsInputs import clsInputs
 from ReachTester import clsModel
 #import numpy as np
 import pickle as pic

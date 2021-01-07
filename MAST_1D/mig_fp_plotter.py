@@ -8,8 +8,8 @@ Plots Degradation/Active Layer D50 against migration rate for various floodplain
 """
 import os
 import matplotlib.pyplot as plt
-from size_spec_load_plot import extractGSDdata
-from ActiveLayerGSDnormaliser import normaliseGSD
+from .size_spec_load_plot import extractGSDdata
+from .ActiveLayerGSDnormaliser import normaliseGSD
 
 miglist = [0.0, 1.0, 1.5, 2.0]
 #pblist = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]

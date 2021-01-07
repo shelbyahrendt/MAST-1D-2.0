@@ -48,8 +48,8 @@ class clsLoadGenerator(object):
                 
                 Load = 1 + self.C*math.exp(-removalcumu/self.tau)
                 LoadFactor.append(Load)
-            print counter
-            print LoadFactor[-1]
+            print(counter)
+            print(LoadFactor[-1])
             counter = counter + 1
             
         return counter, LoadFactor, LoadFactorCount
