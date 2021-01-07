@@ -29,9 +29,9 @@ class clsGUI(object):
         self.Plotlabel = T.Label(self.ft, text='Variable to plot:', font = "Times 12 bold").grid(column=0, row=0, pady=10, sticky=T.E)
         self.dir_opt = {}        
         self.pathbutton = T.Button(self.fname, text = "Choose run", font="Times 12", bg='LIGHTSKYBLUE', command = self.chooserun)     
-        self.pausebutton = T.Button(self.f, text = u"\u2016", font=('bold'), bg='RED', command = self.pauseorplay)
-        self.rewindbutton = T.Button(self.f, text = u"\u23EA", font=('bold'), command = self.rewind)
-        self.ffbutton = T.Button(self.f, text = u"\u23E9", font=('bold'), command = self.fforward)
+        self.pausebutton = T.Button(self.f, text = "\u2016", font=('bold'), bg='RED', command = self.pauseorplay)
+        self.rewindbutton = T.Button(self.f, text = "\u23EA", font=('bold'), command = self.rewind)
+        self.ffbutton = T.Button(self.f, text = "\u23E9", font=('bold'), command = self.fforward)
         self.aniplot = FigureCanvasTkAgg(self.fig.figure, master=self.f)
         self.error = ""
     
@@ -129,18 +129,18 @@ class clsGUI(object):
 
     def pauseorplay(self):
         if self.fig.pause == False:
-            self.pausebutton.configure(text = u"\u25B6", bg='GREEN')
+            self.pausebutton.configure(text = "\u25B6", bg='GREEN')
             self.fig.pause = True
         else:
-            self.pausebutton.configure(text = u"\u2016", font = ('bold'), bg = 'RED')
+            self.pausebutton.configure(text = "\u2016", font = ('bold'), bg = 'RED')
             self.fig.pause = False
             
     def rewind(self):
         self.fig.pause = True
-        self.pausebutton.configure(text = u"\u25B6", bg='GREEN')
+        self.pausebutton.configure(text = "\u25B6", bg='GREEN')
         self.fig.j = self.fig.j - 1
         
     def fforward(self):
         self.fig.pause = True
-        self.pausebutton.configure(text = u"\u25B6", bg='GREEN')
+        self.pausebutton.configure(text = "\u25B6", bg='GREEN')
         self.fig.j = self.fig.j + 1

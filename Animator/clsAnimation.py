@@ -124,7 +124,7 @@ class clsAnimation():
         #df.reset_index(inplace=True)
         self.data = df
         self.attributes = objectdict
-        self.variables = objectdict.keys()
+        self.variables = list(objectdict.keys())
         
         return 'fine'
             
